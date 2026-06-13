@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لوحة إدارة مساهمي مسجد الخير أزلا</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-page">
+<div class="topbar"><a href="index.html">العودة للموقع</a><span>لوحة الإدارة</span></div>
+<main class="admin-wrap">
+  <section class="admin-panel">
+    <h1>لوحة إدارة المساهمين</h1>
+    <div class="admin-warning">
+      هذه الصفحة تحتاج Firebase. إذا لم تلصق إعدادات Firebase في firebase-config.js ستشتغل كنسخة تجريبية محلية فقط.
+    </div>
+    <div id="loginBox">
+      <h2>تسجيل الدخول</h2>
+      <div class="admin-grid">
+        <input id="email" type="email" placeholder="البريد الإلكتروني">
+        <input id="password" type="password" placeholder="كلمة السر">
+        <button onclick="adminLogin()">دخول</button>
+      </div>
+    </div>
+    <div id="adminBox" style="display:none">
+      <h2>إضافة مساهم</h2>
+      <div class="admin-grid">
+        <input id="cName" placeholder="اسم المساهم">
+        <input id="cAmount" type="number" placeholder="المبلغ">
+        <button onclick="adminAddContributor()">إضافة</button>
+      </div>
+      <button class="danger" onclick="adminLogout()" style="margin-top:12px">خروج</button>
+    </div>
+  </section>
+
+  <section class="admin-panel">
+    <h2>الإحصائيات</h2>
+    <div class="contrib-stats">
+      <div><b id="adminCount">0</b><span>مساهمة</span></div>
+      <div><b id="adminTotal">0</b><span>درهم</span></div>
+      <div><b id="adminRemaining">0</b><span>متبقي</span></div>
+    </div>
+  </section>
+
+  <section class="admin-panel">
+    <h2>اللائحة</h2>
+    <div class="table-wrap">
+      <table class="admin-table">
+        <thead><tr><th>الاسم</th><th>المبلغ</th><th>الإجراءات</th></tr></thead>
+        <tbody id="adminList"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+<script src="firebase-config.js"></script>
+<script type="module" src="admin.js"></script>
+</body>
+</html>

@@ -98,3 +98,23 @@ document.addEventListener('DOMContentLoaded',()=>{
   const search=document.getElementById('search');
   if(search) search.addEventListener('input', refreshContributors);
 });
+
+
+// Public Firebase live contributors support (optional)
+async function loadFirebaseContributorsIfConfigured(){
+  if(!window.FIREBASE_CONFIG || !window.FIREBASE_CONFIG.configured) return;
+  try{
+    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js");
+    const { getFirestore, collection, onSnapshot, query, orderBy } = await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js");
+    const app = initializeApp(window.FIREBASE_CONFIG);
+    const db = getFirestore(app);
+    const q = query(collection(db, "contributors"), orderBy("createdAt", "desc"));
+    onSnapshot(q, snap => {
+      const live = snap.docs.map((d,i)=>({n:i+1, id:d.id, ...d.data()}));
+      window.liveContributors = live;
+      renderContributors(live);
+      updateStats(live);
+    });
+  }catch(e){ console.warn("Firebase public load failed", e); }
+}
+document.addEventListener('DOMContentLoaded', loadFirebaseContributorsIfConfigured);
